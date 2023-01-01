@@ -148,9 +148,13 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         TableDTO<Rol> tableDTO = new TableDTO<>();
         List<Rol> roles = rolRepository.findAll();
 
+        if (roles.isEmpty()) {
+            return new ResponseDTO(new Date(), HttpStatus.NOT_FOUND, "No se han encontrado registros", null);
+        }
+
         tableDTO.setLista(roles);
         tableDTO.setTotalRecords(roles.size());
-        return new ResponseDTO(new Date(), HttpStatus.OK, "La lista de roles fue obtenida con éxito", tableDTO);
+        return new ResponseDTO(new Date(), HttpStatus.OK, "El listado de roles fue obtenido con éxito", tableDTO);
     }
 
     @Override
