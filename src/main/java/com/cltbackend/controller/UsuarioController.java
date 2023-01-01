@@ -1,15 +1,15 @@
 package com.cltbackend.controller;
 
-import com.cltbackend.DTO.RolUsuarioDTO;
+import com.cltbackend.dto.ResponseDTO;
+import com.cltbackend.dto.RolUsuarioDTO;
 import com.cltbackend.model.Rol;
 import com.cltbackend.model.Usuario;
 import com.cltbackend.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @RestController
@@ -19,28 +19,39 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping("/listarUsuarios")
-    public ResponseEntity<List<Usuario>> getUsuario() {
+    @GetMapping(value = "/listarUsuarios", produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<List<Usuario>> getUsuarios() {
         return ResponseEntity.ok().body(usuarioService.getUsuarios());
     }
 
-    @PostMapping("/crearUsuario")
-    public ResponseEntity<Usuario> saveUsuario(@RequestBody Usuario usuario) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuario/crearUsuario").toUriString());
-        return ResponseEntity.created(uri).body(usuarioService.saveUsuario(usuario));
+    @PostMapping(value = "/crearUsuario", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> saveUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.saveUsuario(usuario).build();
     }
 
-    @PostMapping("/crearRol")
-    public ResponseEntity<Rol> saveRol(@RequestBody Rol rol) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuario/crearRol").toUriString());
-        return ResponseEntity.created(uri).body(usuarioService.saveRol(rol));
+    @PutMapping(value = "/actualizarUsuario", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> editUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.editUsuario(usuario).build();
     }
 
-    @PostMapping("/asignarROlAUsuario")
-    public ResponseEntity<?> addRolToUsuario(@RequestBody RolUsuarioDTO rolUsuarioDTO) {
-        usuarioService.addRolToUsuario(rolUsuarioDTO.getUsername(), rolUsuarioDTO.getNombreRol());
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/agregarSaldo", produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> editUsuario(@RequestParam Long idUsuario, Long saldo) {
+        return usuarioService.addSaldoToUsuario(idUsuario, saldo).build();
     }
 
+    @PostMapping(value = "/crearRol", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> saveRol(@RequestBody Rol rol) {
+        return usuarioService.saveRol(rol).build();
+    }
+
+    @GetMapping(value = "/listarRoles", produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> getRoles() {
+        return usuarioService.getRoles().build();
+    }
+
+    @PostMapping(value = "/asignarRolAUsuario", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+    public ResponseEntity<ResponseDTO> addRolToUsuario(@RequestBody RolUsuarioDTO rolUsuarioDTOList) {
+       return usuarioService.addRolToUsuario(rolUsuarioDTOList).build();
+    }
 
 }

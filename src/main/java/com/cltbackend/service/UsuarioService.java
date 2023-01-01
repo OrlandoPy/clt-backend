@@ -1,5 +1,7 @@
 package com.cltbackend.service;
 
+import com.cltbackend.dto.ResponseDTO;
+import com.cltbackend.dto.RolUsuarioDTO;
 import com.cltbackend.model.Rol;
 import com.cltbackend.model.Usuario;
 
@@ -7,13 +9,19 @@ import java.util.List;
 
 public interface UsuarioService {
 
-    Usuario saveUsuario(Usuario usuario);
+    ResponseDTO saveUsuario(Usuario usuario);
+
+    ResponseDTO editUsuario(Usuario usuario);
+
+    ResponseDTO addSaldoToUsuario(Long idUsuario, Long saldo);
 
     Usuario getUsuario(String username);
 
     List<Usuario> getUsuarios();
 
-    Rol saveRol(Rol rol);
+    ResponseDTO saveRol(Rol rol);
 
-    void addRolToUsuario(String username, String nombreRol);
+    ResponseDTO getRoles();
+
+    ResponseDTO addRolToUsuario(RolUsuarioDTO rolUsuarioDTO);
 }

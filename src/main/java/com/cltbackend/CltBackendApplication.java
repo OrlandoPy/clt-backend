@@ -32,18 +32,18 @@ public class CltBackendApplication {
 			usuarioService.saveRol(new Rol(null, "ROL_ADMIN"));
 			usuarioService.saveRol(new Rol(null, "ROL_SUPER_ADMIN"));
 
-			usuarioService.saveUsuario(new Usuario(null, "Orlando Gomez", "ogomez", "12345", new ArrayList<>()));
-			usuarioService.saveUsuario(new Usuario(null, "Alejandro Mendoza", "amendoza", "12345", new ArrayList<>()));
-			usuarioService.saveUsuario(new Usuario(null, "Marcelo Ramirez", "mramirez", "12345", new ArrayList<>()));
-			usuarioService.saveUsuario(new Usuario(null, "Nicolas Chamorro", "nchamorro", "12345", new ArrayList<>()));
+			usuarioService.saveUsuario(new Usuario(null, "ogomez@gmail.com", "12345", "Orlando Gomez", "98765432", 0L, new ArrayList<>()));
+			usuarioService.saveUsuario(new Usuario(null, "amendoza@gmail.com", "12345", "Alejandro Mendoza", "2345678", 0L, new ArrayList<>()));
+			usuarioService.saveUsuario(new Usuario(null, "mramirez@gmail.com", "12345", "Marcelo Ramirez", "5624562", 0L, new ArrayList<>()));
+			usuarioService.saveUsuario(new Usuario(null, "nchamorro@gmail.com", "12345", "Nicolas Chamorro", "66775656 ", 0L, new ArrayList<>()));
 
-			usuarioService.addRolToUsuario("ogomez", "ROL_USER");
-			usuarioService.addRolToUsuario("ogomez", "ROL_MANAGER");
-			usuarioService.addRolToUsuario("amendoza", "ROL_MANAGER");
-			usuarioService.addRolToUsuario("mramirez", "ROL_ADMIN");
-			usuarioService.addRolToUsuario("nchamorro", "ROL_SUPER_ADMIN");
-			usuarioService.addRolToUsuario("nchamorro", "ROL_ADMIN");
-			usuarioService.addRolToUsuario("nchamorro", "ROL_USER");
+			usuarioService.addRolToUsuario("ogomez@gmail.com", "ROL_USER");
+			usuarioService.addRolToUsuario("ogomez@gmail.com", "ROL_MANAGER");
+			usuarioService.addRolToUsuario("amendoza@gmail.com", "ROL_MANAGER");
+			usuarioService.addRolToUsuario("mramirez@gmail.com", "ROL_ADMIN");
+			usuarioService.addRolToUsuario("nchamorro@gmail.com", "ROL_SUPER_ADMIN");
+			usuarioService.addRolToUsuario("nchamorro@gmail.com", "ROL_ADMIN");
+			usuarioService.addRolToUsuario("nchamorro@gmail.com", "ROL_USER");
 		};
 	}*/
 
