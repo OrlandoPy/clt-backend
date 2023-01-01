@@ -1,4 +1,4 @@
-package com.cltbackend.DTO;
+package com.cltbackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,14 +24,13 @@ public class ResponseDTO {
   private Object data;
   private List<Object> listData;
   private String alertType;
-  private boolean bandera;
 
   public ResponseDTO() {
   }
 
-  public ResponseDTO(Date timestamp, Integer code, String message, Object data) {
+  public ResponseDTO(Date timestamp, HttpStatus httpStatus, String message, Object data) {
     this.timestamp = timestamp;
-    this.code = code;
+    this.code = httpStatus.value();
     this.message = message;
     this.data = data;
   }
@@ -60,13 +59,6 @@ public class ResponseDTO {
     this.code = httpStatus.value();
   }
 
-  public ResponseDTO(String message, String alertType, HttpStatus httpStatus, boolean bandera) {
-    this.message = message;
-    this.alertType = alertType;
-    this.code = httpStatus.value();
-    this.bandera = bandera;
-  }
-
   public ResponseDTO(String message, Object data, HttpStatus httpStatus) {
     this.message = message;
     this.data = data;
@@ -80,14 +72,6 @@ public class ResponseDTO {
     this.code = httpStatus.value();
   }
 
-  public ResponseDTO(String message, Object data, String alertType, HttpStatus httpStatus, boolean bandera) {
-    this.message = message;
-    this.data = data;
-    this.alertType = alertType;
-    this.code = httpStatus.value();
-    this.bandera = bandera;
-  }
-
   public ResponseDTO(String message, Object data, List<Object> listdata, String alertType, HttpStatus httpStatus) {
     this.message = message;
     this.data = data;
@@ -96,14 +80,12 @@ public class ResponseDTO {
     this.code = httpStatus.value();
   }
 
-  public ResponseDTO(String message, Object data, List<Object> listdata, String alertType, Integer code,
-                     boolean bandera) {
+  public ResponseDTO(String message, Object data, List<Object> listdata, String alertType, Integer code) {
     this.message = message;
     this.data = data;
     this.listData = listdata;
     this.alertType = alertType;
     this.code = code;
-    this.bandera = bandera;
   }
 
   public ResponseDTO(List<Object> listdata, HttpStatus httpStatus) {
@@ -142,17 +124,6 @@ public class ResponseDTO {
 
   public ResponseEntity<ResponseDTO> build() {
     ResponseDTO dto = new ResponseDTO(this.timestamp, this.code, this.message, this.data);
-    return new ResponseEntity<>(dto, getStatus());
-  }
-
-  public ResponseEntity<ResponseDTO> construirLogin() {
-    ResponseDTO dto = new ResponseDTO(this.timestamp, this.code, this.message, this.data, this.alertType);
-    return new ResponseEntity<>(dto, getStatus());
-  }
-
-  public ResponseEntity<ResponseDTO> buildFlujoExpediente() {
-    ResponseDTO dto = new ResponseDTO(this.message, this.data, this.listData, this.alertType, this.code,
-        this.bandera);
     return new ResponseEntity<>(dto, getStatus());
   }
 
