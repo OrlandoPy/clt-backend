@@ -86,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                     usuarioMap.setUsername(usuario.getUsername());
                     usuarioMap.setNombre(usuario.getNombre());
                     usuarioMap.setNroDocumento(usuario.getNroDocumento());
-                    return  usuarioRepository.save(usuario);
+                    return usuarioRepository.save(usuarioMap);
                 });
                 return new ResponseDTO(new Date(), HttpStatus.OK, "Usuario actualizado con éxito", null);
             } else {
