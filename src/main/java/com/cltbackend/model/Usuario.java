@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +24,29 @@ public class Usuario {
     @NotNull
     @Column(name = "ID_USUARIO")
     private Long id;
-    @NotNull
-    @Column(name = "NOMBRE")
-    private String nombre;
+
     @Column(name = "USERNAME")
     @NotNull
+    @Email
     private String username;
+
     @Column(name = "PASSWORD")
     @NotNull
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Rol> roles = new ArrayList<>();
+
+    @NotNull
+    @Column(name = "NOMBRE")
+    private String nombre;
+
+    @NotNull
+    @Column(name = "NRO_DOCUMENTO")
+    private String nroDocumento;
+
+    @Column(name = "SALDO")
+    private long saldo;
+
+    @ManyToMany
+    @JoinTable(name = "USUARIOS_ROLES", joinColumns = @JoinColumn(name = "ID_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_ROL"))
+    private List<Rol> roles;
 }
