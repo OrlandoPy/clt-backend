@@ -11,7 +11,7 @@ public class TableDTO<T> {
 
     private List<T> lista;
 
-    private int totalRecords;
+    private long totalRecords;
 
    public TableDTO(){
 
