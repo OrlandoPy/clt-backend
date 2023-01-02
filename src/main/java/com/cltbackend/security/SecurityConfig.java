@@ -3,6 +3,7 @@ package com.cltbackend.security;
 import com.cltbackend.filter.CustomAuthenticationFilter;
 import com.cltbackend.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.tokenExpiration.minutes}")
+    private Long jwtTokenExpiration;
+
+    @Value("${jwt.refreshTokenExpiration.minutes}")
+    private Long refreshTokenExpiration;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -36,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/usuario/crearUsuario", "/auth/refreshToken", "/swagger-resources/**",
                 "/swagger-ui/**", "/v2/api-docs/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtSecret, jwtTokenExpiration, refreshTokenExpiration));
+        http.addFilterBefore(new CustomAuthorizationFilter(jwtSecret), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

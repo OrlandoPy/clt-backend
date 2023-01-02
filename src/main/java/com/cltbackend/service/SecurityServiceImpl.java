@@ -8,6 +8,7 @@ import com.cltbackend.model.Rol;
 import com.cltbackend.model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,12 @@ public class SecurityServiceImpl implements SecurityService {
 
     private final UsuarioService usuarioService;
 
+    @Value("${jwt.tokenExpiration.minutes}")
+    private Long jwtTokenExpiration;
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     @Override
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -34,14 +41,14 @@ public class SecurityServiceImpl implements SecurityService {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("cltkey".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
                 Usuario usuario = usuarioService.getUsuario(username);
                 String accessToken = JWT.create()
                         .withSubject(usuario.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + jwtTokenExpiration * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", usuario.getRoles().stream().map(Rol::getNombre).collect(Collectors.toList()))
                         .sign(algorithm);
