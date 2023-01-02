@@ -17,7 +17,8 @@ import javax.validation.constraints.NotNull;
 public class DeudaUsuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "DEUDAS_USUARIOS_ID_GENERATOR", sequenceName = "DEUDAS_USUARIOS_ID_USUARIO_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEUDAS_USUARIOS_ID_GENERATOR")
     @NotNull
     @Column(name = "ID_DEUDA_USUARIO")
     private Long id;

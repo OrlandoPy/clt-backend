@@ -19,7 +19,8 @@ import java.util.Date;
 public class PagoUsuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "PAGOS_USUARIOS_ID_GENERATOR", sequenceName = "PAGOS_USUARIOS_ID_PAGOS_USUARIOS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAGOS_USUARIOS_ID_GENERATOR")
     @NotNull
     @Column(name = "ID_PAGO_USUARIO")
     private Long id;
