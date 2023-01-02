@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="historial_pago_fecha" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2446925-f422-460d-8ee7-3d344154c93a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_CLT_EJERCICIO"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="fechaDesde" class="java.lang.String"/>
+	<parameter name="fechaHasta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select u.nombre,
+u.username,
+s.nombre as servicio,
+pu.monto_abonado,
+to_char(pu.fecha, 'dd/MM/yyyy') as fecha
+from pagos_usuarios pu
+join deudas_usuarios du
+on du.id_deuda_usuario = pu.id_deuda_usuario 
+join servicios s 
+on s.id_servicio = du.id_servicio 
+join usuarios u 
+on u.id_usuario = du.id_usuario
+where pu.fecha between to_timestamp( $P{fechaDesde} , 'dd/MM/yyyy')  and to_timestamp( $P{fechaHasta} , 'dd/MM/yyyy')
+order by fecha ]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
+	</field>
+	<field name="username" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="username"/>
+		<property name="com.jaspersoft.studio.field.label" value="username"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
+	</field>
+	<field name="servicio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="servicio"/>
+		<property name="com.jaspersoft.studio.field.label" value="servicio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="servicios"/>
+	</field>
+	<field name="monto_abonado" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="monto_abonado"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto_abonado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pagos_usuarios"/>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<variable name="total_abonado" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_abonado}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="0" width="240" height="30" uuid="5596b9d0-9a28-4bbe-9285-4fcbb2ab64e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Historial de Pagos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="40" width="100" height="20" uuid="7ae42f41-a794-49aa-b521-58ba37976f83"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaDesde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="40" width="80" height="20" uuid="e30556d9-353e-4d1b-be73-ab67798193b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha desde: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="40" width="80" height="20" uuid="39416fde-6453-466f-ab03-9a048dd3c2c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha hasta: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="40" width="100" height="20" uuid="b2f56667-4aad-44bb-b12b-879a0ea5df53"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaHasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="333" y="2" width="111" height="20" uuid="beda8776-2ec6-4991-a3b0-d44a56c5813b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="73042eaa-6864-44f0-8503-4fa9e673d9ed"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto abonado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="2" width="111" height="20" uuid="0576da1b-4d4e-4434-afbd-a3291f0904a6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="119df2be-9607-49b3-8016-b0c657b37e17"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="2" width="111" height="20" uuid="0c7efb5f-5752-4029-91cb-6e795cf30cb4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92dac97f-a817-4287-959f-b500011dea6c"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="2" width="111" height="20" uuid="08f1f8dc-e920-44f4-929f-e4cecccac9b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="39e29a62-f7c7-4e81-8564-a3292666d192"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="2" width="111" height="20" uuid="411aca49-e664-4251-b993-80aaeee2df3f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87f9af74-b0a1-4169-933d-cce05d4e55b8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicio]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="143c423a-ea9a-4483-a7dd-86b39e3bb80c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="59b6b52b-bf9c-4d05-843e-c0e984ff8d7d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="20" uuid="5a29c3a8-8a07-4db0-8997-01d665ddccee">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92dac97f-a817-4287-959f-b500011dea6c"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="111" height="20" uuid="a51c84a4-3bdb-4487-a790-fa566bc4955c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="39e29a62-f7c7-4e81-8564-a3292666d192"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="111" height="20" uuid="61be9df8-cf85-4fc0-8e45-01ed8a0191c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87f9af74-b0a1-4169-933d-cce05d4e55b8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{servicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;#,##0.###-">
+				<reportElement x="333" y="0" width="97" height="20" uuid="dbadfd74-5a3b-4bdd-9fbf-2740ce767603">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="73042eaa-6864-44f0-8503-4fa9e673d9ed"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{monto_abonado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="0" width="111" height="20" uuid="e1e86e91-7c47-456c-b324-bc3a2c404c61">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="119df2be-9607-49b3-8016-b0c657b37e17"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="380" y="0" width="174" height="20" uuid="375590cc-d123-48a0-961b-aa5c365592f7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="256" y="0" width="80" height="20" uuid="38f1a120-1310-4b91-a2a5-3757d8c932a5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total abonado: ]]></text>
+			</staticText>
+			<textField pattern="#,##0.###;#,##0.###-">
+				<reportElement x="336" y="0" width="94" height="20" uuid="0268f0ac-74f0-4225-9699-6695f2582a6b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{total_abonado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="009bb6f5-2d36-4058-a049-2c3e621788f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
