@@ -106,6 +106,9 @@ public class ResponseDTO {
       case 200:
         status = HttpStatus.OK;
         break;
+      case 204:
+        status = HttpStatus.NO_CONTENT;
+        break;
       case 400:
         status = HttpStatus.BAD_REQUEST;
         break;
