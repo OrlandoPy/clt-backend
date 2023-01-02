@@ -1,9 +1,5 @@
 package com.cltbackend;
 
-import com.cltbackend.model.Rol;
-import com.cltbackend.model.Usuario;
-import com.cltbackend.service.UsuarioService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
